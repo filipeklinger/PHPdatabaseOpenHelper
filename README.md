@@ -5,6 +5,7 @@ API para para simplificar acesso ao banco de dados
 # Funcionalidade
 
 Introduz código SQL e retorna JSON
+- Erros de sintaxe são Logados para arquivo (Err<tipoDoErro>.txt);
 
 # CONFIGURAÇÃO
 
