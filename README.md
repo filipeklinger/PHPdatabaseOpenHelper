@@ -33,17 +33,17 @@ select($columns,$table,$whereClause,$whereArgs,$orderBy);
 
 ```
 
--$columns : String;
--$table : String;
--$whereClause : String; (em branco se nao utilizar)
--$whereArgs : array(null);(em branco se nao utilizar)
--$orderBy : String
+- $columns : String;
+- $table : String;
+- $whereClause : String; (em branco se nao utilizar)
+- $whereArgs : array(null);(em branco se nao utilizar)
+- $orderBy : String
 
 ###### throw erros
 
--EmptyColumns
--EmptyTable
--if($whereClause != null) ArrayNotFound
+- EmptyColumns
+- EmptyTable
+- if($whereClause != null) ArrayNotFound
 
 -----------------------------------------------------------------------
 ###### Exemplo de uso:
