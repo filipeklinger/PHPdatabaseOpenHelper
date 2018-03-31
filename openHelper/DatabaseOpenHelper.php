@@ -389,6 +389,9 @@ class Database{
     }
 
 //-------------------LastId----------------------------------------------------
+    /**
+     * @return false or NumberOfLastId
+     */
     public function getLastId()
     {
         $query = "SELECT LAST_INSERT_ID()";
