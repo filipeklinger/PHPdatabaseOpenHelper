@@ -1,5 +1,5 @@
 <?php
-include_once 'constantes.php';
+
 class Database{
     /**
      * @var PDO   <--- needed by PhpStorm to find Methods of PDO
