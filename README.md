@@ -57,7 +57,7 @@ $whereClause = "nome LIKE ? and idade < ?";
 $whereArgs = array("joão",18);//na mesma ordem do whereClause
 $orderBy = "ASC"
 try{
-	$stringJson = $db->select($columns,$table,$whereClause,$whereArgs,$orderBy = null);
+	$stringJson = $db->select($columns,$table,$whereClause,$whereArgs,$orderBy);
 }catch(Exception e){
 	//Todo Handle Exception
 }
