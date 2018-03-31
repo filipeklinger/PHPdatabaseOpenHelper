@@ -1,12 +1,13 @@
 <?php
-
 class Database{
     /**
      * @var PDO
      */
+    private $diretorio;
     private $databaseObj;
 
     function __construct(){
+        $this->diretorio = dirname(__FILE__);
         try {
             $this->conectar();
         } catch (Exception $e) {
@@ -86,7 +87,7 @@ class Database{
             $stmt->execute();
         } catch (Exception $Exception) {
             $err = $Exception->getMessage();
-            $arquivo = fopen("ErrLogSelect.txt", "a+");
+            $arquivo = fopen($this->diretorio."/ErrLogSelect.txt", "a+");
             $err = "[" . date("d/m/Y h:i A") . "]" . " QUERY: " . $query . " ERRO: " . $err . "\n";
             fwrite($arquivo, $err);
             fclose($arquivo);
@@ -154,7 +155,7 @@ class Database{
             $stmt->execute();
         } catch (Exception $Exception) {
             $err = $Exception->getMessage();
-            $arquivo = fopen("ErrLogSelect.txt", "a+");
+            $arquivo = fopen($this->diretorio."/ErrLogSelectPaginator.txt", "a+");
             $err = "[" . date("d/m/Y h:i A") . "]" . " QUERY: " . $query . " ERRO: " . $err . "\n";
             fwrite($arquivo, $err);
             fclose($arquivo);
@@ -217,7 +218,7 @@ class Database{
             $stmt->execute();
         } catch (Exception $e) {//logamos os erros em arquivo
             $err = $e->getMessage();
-            $arquivo = fopen("ErrLogInsert.txt", "a+");
+            $arquivo = fopen($this->diretorio."/ErrLogInsert.txt", "a+");
             $err = "[" . date("d/m/Y h:i A") . "]" . " QUERY: " . $query . " ERRO: " . $err . "\n";
             fwrite($arquivo, $err);
             fclose($arquivo);
@@ -296,7 +297,7 @@ class Database{
             $stmt->execute();
         } catch (Exception $Exception) {
             $err = $Exception->getMessage();
-            $arquivo = fopen("ErrLogUpdate.txt", "a+");
+            $arquivo = fopen($this->diretorio."/ErrLogUpdate.txt", "a+");
             $err = "[" . date("d/m/Y h:i A") . "]" . " QUERY: " . $query . " ERRO: " . $err . "\n";
             fwrite($arquivo, $err);
             fclose($arquivo);
@@ -351,7 +352,7 @@ class Database{
             $stmt->execute();
         } catch (Exception $Exception) {
             $err = $Exception->getMessage();
-            $arquivo = fopen("ErrLogUpdate.txt", "a+");
+            $arquivo = fopen($this->diretorio."/ErrLogDelete.txt", "a+");
             $err = "[" . date("d/m/Y h:i A") . "]" . " QUERY: " . $query . " ERRO: " . $err . "\n";
             fwrite($arquivo, $err);
             fclose($arquivo);
@@ -401,7 +402,7 @@ class Database{
             $stmt->execute();
         } catch (Exception $Exception) {
             $err = $Exception->getMessage();
-            $arquivo = fopen("ErrLogSelect.txt", "a+");
+            $arquivo = fopen($this->diretorio."/ErrLogLastId.txt", "a+");
             $err = "[" . date("d/m/Y h:i A") . "]" . " QUERY: " . $query . " ERRO: " . $err . "\n";
             fwrite($arquivo, $err);
             fclose($arquivo);
