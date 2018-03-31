@@ -6,7 +6,7 @@ API para para simplificar acesso ao banco de dados
 
 Introduz código SQL e retorna JSON
 
-# METODOS "/model"
+# CONFIGURAÇÂO
 
 ## database.ini
 
@@ -19,6 +19,8 @@ schema = suaBaseDeDados
 username = usuarioDoSGBD
 password = senha
 ```
+
+# MÉTODOS
 
 ## DatabaseOpenHelper.php
 
