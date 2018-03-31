@@ -2,7 +2,7 @@
 
 class Database{
     /**
-     * @var PDO   <--- needed by PhpStorm to find Methods of PDO
+     * @var PDO
      */
     private $databaseObj;
 
