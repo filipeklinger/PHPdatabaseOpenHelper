@@ -2,13 +2,13 @@
 Database Open Helper
 API para para simplificar acesso ao banco de dados
 
-#Funcionalidade
+# Funcionalidade
 
 Introduz código SQL e retorna JSON
 
-#METODOS "/model"
+# METODOS "/model"
 
-##database.ini
+## database.ini
 
 ```
 [database]
@@ -19,17 +19,18 @@ schema = suaBaseDeDados
 username = usuarioDoSGBD
 password = senha
 ```
-##DatabaseOpenHelper.php
 
-```
-######new Database();
-```
+## DatabaseOpenHelper.php
+
+###### new Database();
+
 Cria uma nova instancia de PDO utilizando a configuração do arquivo database.ini;
 
-######Select
+###### Select
 
 ```
 select($columns,$table,$whereClause,$whereArgs,$orderBy);
+
 ```
 
 -$columns : String;
@@ -38,14 +39,15 @@ select($columns,$table,$whereClause,$whereArgs,$orderBy);
 -$whereArgs : array(null);(em branco se nao utilizar)
 -$orderBy : String
 
-######throw erros
+###### throw erros
 
 -EmptyColumns
 -EmptyTable
 -if($whereClause != null) ArrayNotFound
 
 -----------------------------------------------------------------------
-######Exemplo de uso:
+###### Exemplo de uso:
+
 ```
 $db = new Database();
 
