@@ -26,7 +26,9 @@
                 var arrayJson = JSON.parse(this.responseText);
                 var string = "";
                 for(var i=0;i< arrayJson.length;i++){
-                    string += arrayJson[i]["pergunta"] + "\n<br>";
+                    string += arrayJson[i]["id"] + "\n<br>";
+                    string += arrayJson[i]["primeiro_nome"] + "\n<br>";
+                    string += arrayJson[i]["sobrenome"] + "\n<br>";
                 }
                 document.getElementById(id).innerHTML = string;
                 $('.loader').remove();
