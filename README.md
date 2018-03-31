@@ -6,7 +6,7 @@ API para para simplificar acesso ao banco de dados
 
 Introduz código SQL e retorna JSON
 
-# CONFIGURAÇÂO
+# CONFIGURAÇÃO
 
 ## database.ini
 
