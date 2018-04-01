@@ -1,11 +1,12 @@
 # PHPdatabaseOpenHelper
-Database Open Helper
-API para para simplificar acesso ao banco de dados
+Database Open Helper \
+API para para simplificar acesso ao banco de dados\
+Possui internamente métodos anti Sql Injection
 
 # Funcionalidade
 
 Introduz código SQL e retorna JSON
-- Erros de sintaxe são Logados para arquivo (Err<tipoDoErro>.txt);
+- Erros de sintaxe são Logados para arquivo (Err< tipoDoErro >.txt);
 
 # CONFIGURAÇÃO
 
@@ -158,6 +159,35 @@ $whereArgs = array(1);
 
 try{
 	$boolean = $db->delete($table,$whereClause,$whereArgs);
+}catch(Exception e){
+	//Todo Handle Exception
+}
+
+```
+###### Last ID
+
+```
+getLastId()
+```
+
+- Sem parâmetros
+
+###### Throw Erros
+
+- Não
+
+
+###### Exemplo de uso:
+
+```
+$db = new Database();
+
+$columns = "nome,idade,endereco";
+$table = "usuario";
+$params = array("joão",5,"Rua xyz");//na mesma ordem do columns
+try{
+	$boolean = $db->insert($columns,$table,$params);
+	$lasId = $db->getLastId();//Id do insert acima
 }catch(Exception e){
 	//Todo Handle Exception
 }
