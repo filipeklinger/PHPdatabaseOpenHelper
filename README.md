@@ -34,7 +34,6 @@ Cria uma nova instancia de PDO utilizando a configuração do arquivo database.i
 ###### Select
 
 ```
-$orderBy = null,$sequence = ASC, $limit = null,$offset = null)
 select($columns,$table,$whereClause,$whereArgs,$orderBy,$sequence, $limit,$offset);
 
 ```
