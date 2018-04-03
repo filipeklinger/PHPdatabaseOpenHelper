@@ -1,4 +1,9 @@
 <?php
+/**
+ * Created by Filipe Klinger.
+ * Date: 03/03/18
+ * Time: 14:37
+ */
 class Database{
     /**
      * @var PDO
