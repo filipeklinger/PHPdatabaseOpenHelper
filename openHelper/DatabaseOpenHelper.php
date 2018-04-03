@@ -4,6 +4,8 @@
  * Date: 03/03/18
  * Time: 14:37
  */
+const ASC = " ASC ";
+const DESC = " DESC ";
 class Database{
     /**
      * @var PDO
@@ -48,12 +50,13 @@ class Database{
      * @param string $whereClause
      * @param array $whereArgs
      * @param string $orderBy
+     * @param string $sequence
      * @param integer $limit
      * @param integer $offset
      * @return string JsonObject
      * @throws Exception
      */
-    public function select($columns, $table, $whereClause = null, $whereArgs = array(null), $orderBy = null, $limit = null,$offset = null)
+    public function select($columns, $table, $whereClause = null, $whereArgs = array(null), $orderBy = null,$sequence = ASC, $limit = null,$offset = null)
     {
         //check
         if (empty($columns)) throw new Exception("EmptyColumns", 1);
@@ -75,7 +78,7 @@ class Database{
 
         //ORDER
         if (sizeof($orderBy) > 0 & $orderBy != NULL) {
-            $query .= " ORDER BY " . $orderBy;
+            $query .= " ORDER BY " . $orderBy.$sequence;
         }
 
         //Paginator
