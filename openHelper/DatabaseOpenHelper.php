@@ -78,12 +78,12 @@ class Database{
 
         //ORDER
         if (sizeof($orderBy) > 0 & $orderBy != NULL) {
-            $query .= " ORDER BY " . $orderBy.$sequence;
+            $query .= " ORDER BY " . $this->antiInjection($orderBy)." ".$this->antiInjection($sequence);
         }
 
         //Paginator
         if (sizeof($limit) > 0 & $offset != null) {
-            $query .=" LIMIT ". $limit. " OFFSET ".$offset;
+            $query .=" LIMIT ". intval($limit). " OFFSET ".intval($offset);
         }
         //Preparing
         $PDO = $this->databaseObj;
