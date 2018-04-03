@@ -25,7 +25,7 @@ class Database{
      * @param string $arquivo
      * @throws Exception ErrorOnOpen
      */
-    function conectar($arquivo = 'database.ini')
+    private function conectar($arquivo = 'database.ini')
     {
         if (!$setings = parse_ini_file($arquivo, TRUE)) throw new Exception("ErrorOnOpen");
         $sgbd = $setings['database']['sgbd'];
