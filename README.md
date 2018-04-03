@@ -34,7 +34,8 @@ Cria uma nova instancia de PDO utilizando a configuração do arquivo database.i
 ###### Select
 
 ```
-select($columns,$table,$whereClause,$whereArgs,$orderBy);
+$orderBy = null,$sequence = ASC, $limit = null,$offset = null)
+select($columns,$table,$whereClause,$whereArgs,$orderBy,$sequence, $limit,$offset);
 
 ```
 
@@ -42,7 +43,10 @@ select($columns,$table,$whereClause,$whereArgs,$orderBy);
 - $table : String;
 - $whereClause : String; (em branco se nao utilizar)
 - $whereArgs : array(string);(em branco se nao utilizar)
-- $orderBy : String
+- $orderBy : String;(em branco se nao utilizar)
+- $sequence : constante (ASC/DESC);
+- $limit : Integer (Restringe quantidade de resultados retornados)
+- $offset : Integer (Seta quantidade de resultados pulados);
 
 ###### throw erros
 
@@ -59,9 +63,20 @@ $columns = "nome,idade,sexo";
 $table = "usuario";
 $whereClause = "nome LIKE ? and idade < ?";
 $whereArgs = array("joão",18);//na mesma ordem do whereClause
-$orderBy = "ASC"
+$orderBy = "nome"
+
 try{
-	$stringJson = $db->select($columns,$table,$whereClause,$whereArgs,$orderBy);
+    //select em ordem Decrescente
+	$stringJson = $db->select($columns,$table,$whereClause,$whereArgs,$orderBy,DESC);
+	
+	//Select em ordem crescente na 5ª página com 25 resultados por página
+	
+	$limit = 25;
+	$pagina = 5;
+	$offset = $pagina*$limit;
+	
+	$stringJson2 = $db->select($columns,$table,$whereClause,$whereArgs,$orderBy,ASC,$limit,$offset);
+	
 }catch(Exception e){
 	//Todo Handle Exception
 }
