@@ -48,10 +48,12 @@ class Database{
      * @param string $whereClause
      * @param array $whereArgs
      * @param string $orderBy
+     * @param integer $limit
+     * @param integer $offset
      * @return string JsonObject
      * @throws Exception
      */
-    public function select($columns, $table, $whereClause = null, $whereArgs = array(null), $orderBy = null)
+    public function select($columns, $table, $whereClause = null, $whereArgs = array(null), $orderBy = null, $limit = null,$offset = null)
     {
         //check
         if (empty($columns)) throw new Exception("EmptyColumns", 1);
@@ -74,6 +76,11 @@ class Database{
         //ORDER
         if (sizeof($orderBy) > 0 & $orderBy != NULL) {
             $query .= " ORDER BY " . $orderBy;
+        }
+
+        //Paginator
+        if (sizeof($limit) > 0 & $offset != null) {
+            $query .=" LIMIT ". $limit. " OFFSET ".$offset;
         }
         //Preparing
         $PDO = $this->databaseObj;
@@ -106,74 +113,7 @@ class Database{
 
         return json_encode($data,JSON_UNESCAPED_UNICODE);//return json
     }
-//-----------------SELECT Paginator-------------------------------------------------------------------
 
-    /**
-     * @param string $columns
-     * @param string $table
-     * @param string $whereClause
-     * @param array $whereArgs
-     * @param integer $limit
-     * @param integer $offset
-     * @return string JsonObject
-     * @throws Exception
-     */
-    public function selectPaginator($columns, $table, $whereClause = null, $whereArgs = array(null), $limit = null,$offset = null)
-    {
-        //check
-        if (empty($columns)) throw new Exception("EmptyColumns", 1);
-        if (empty($table)) throw new Exception("EmptyTable", 1);
-
-        $query = "SELECT ";
-
-        //Projection
-        $query .= $columns;
-
-        //TABLE
-        $query .= " FROM " . $table;
-
-        //RESTRICTION
-        if (sizeof($whereClause) > 0) {
-            $query .= " WHERE ";
-            $query .= $whereClause;
-        }
-
-        //Paginator
-        if (sizeof($limit) > 0 & $offset != NULL) {
-            $query .= " LIMIT ". $limit. " OFFSET ".$offset;
-        }
-
-        //Preparing
-        $PDO = $this->databaseObj;
-        $stmt = $PDO->prepare($query);
-        //Inserting params
-        if (sizeof($whereArgs) > 0) {
-            for ($i = 0; $i < sizeof($whereArgs); $i++) {
-                $whereArgs[$i] = $this->antiInjection($whereArgs[$i]);
-                $stmt->bindParam($i + 1, $whereArgs[$i]);
-
-            }
-        }
-
-        //Running Query
-        try {
-            $stmt->execute();
-        } catch (Exception $Exception) {
-            $err = $Exception->getMessage();
-            $arquivo = fopen($this->diretorio."/ErrLogSelectPaginator.txt", "a+");
-            $err = "[" . date("d/m/Y h:i A") . "]" . " QUERY: " . $query . " ERRO: " . $err . "\n";
-            fwrite($arquivo, $err);
-            fclose($arquivo);
-
-            $stmt->closeCursor();
-            return false;
-        }
-
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $stmt->closeCursor();
-        //return obj Json with columns table
-        return json_encode($data,JSON_UNESCAPED_UNICODE);//return json
-    }
 //-------------------------INSERT------------------------------------------------
 
     /**
