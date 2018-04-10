@@ -132,7 +132,7 @@ update($columns,$table,$params,$whereClause,$whereArgs)
 ```
 $db = new Database();
 
-$columns = "nome,idade,endereco";
+$columns = array("nome","idade","endereco");
 $table = "usuario";
 $params = array("joão",10,"Rua xyz");//na mesma ordem do columns
 $whereClause = "id = ?";
