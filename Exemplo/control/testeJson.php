@@ -10,7 +10,8 @@ $db = new Database();
 
 $jsonDetalhes = "";
 try{
-	$jsonDetalhes = $db->select("id,primeiro_nome,sobrenome","usuario", "id = ?", array(1));
+    $db->setVariable("acesso",2);
+	$jsonDetalhes = $db->select("id,primeiro_nome,sobrenome","usuario", "id = @acesso", null);
 }catch(Exception $e){
 	echo "Erro: ".$e;
 }

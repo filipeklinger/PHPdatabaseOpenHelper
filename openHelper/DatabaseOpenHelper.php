@@ -367,5 +367,15 @@ class Database{
         $data = $data[0]['LAST_INSERT_ID()'];
         return $data;
     }
+
+    /**
+     * @param string $name name of variable
+     * @param $value mixed value of variable
+     */
+    public function setVariable(string $name, $value){
+        $value = $this->antiInjection($value);
+        $name = $this->antiInjection($name);
+        $this->databaseObj->query("Set @".$name.":=".$value);
+    }
 }
 

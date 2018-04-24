@@ -211,3 +211,41 @@ try{
 
 ```
 
+-----------------------------------------------------------------------
+###### SetVariable
+
+```
+setVariable(string $name,mixed $value);
+```
+
+- $name : String;
+- $mixed : value;
+
+###### Throw Erros
+
+- Sem parâmetros
+
+
+###### Exemplo de uso:
+
+```
+$db = new Database();
+
+//calculamos a idade dos usuarios 
+$columns = "nome,idade,sexo,TIMESTAMPDIFF(YEAR, c.nascimento, NOW()) AS idade";
+$table = "usuario";
+
+
+try{
+    //setando uma idade de comparacao 
+    $db->setVariable("nascimento","2020-01-20");
+    
+    //buscando pessoas que terao 18 anos em 2020
+    $whereClause = "TIMESTAMPDIFF(YEAR, usuario.nascimento, @nascimento) = 18";
+    
+	$stringJson = $db->select($columns,$table,$whereClause,null);
+	
+}catch(Exception e){
+	//Todo Handle Exception
+}
+```
