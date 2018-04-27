@@ -336,7 +336,7 @@ class Database{
         return $dados;
     }
 
-//-------------------LastId----------------------------------------------------
+//-------------------LastId---------------------------------------------------------------------------------------------
     /**
      * @return false or NumberOfLastId
      */
@@ -367,7 +367,7 @@ class Database{
         $data = $data[0]['LAST_INSERT_ID()'];
         return $data;
     }
-
+//-----------------------------------SET---Variable---------------------------------------------------------------------
     /**
      * @param string $name name of variable
      * @param $value mixed value of variable
