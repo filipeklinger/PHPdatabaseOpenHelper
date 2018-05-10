@@ -71,7 +71,7 @@ class Database{
         $query .= " FROM " . $table;
 
         //RESTRICTION
-        if ($whereClause != null and is_array($whereClause) and sizeof($whereClause) > 0) {
+        if ($whereClause != null and is_string($whereClause) and strlen($whereClause) > 0) {
             $query .= " WHERE ";
             $query .= $whereClause;
         }
@@ -212,7 +212,7 @@ class Database{
         }
 
         //RESTRICTION
-        if (sizeof($whereClause) > 0) {
+        if ($whereClause != null and strlen($whereClause) > 0) {
             $query .= " WHERE ";
             $query .= $whereClause;
         }
@@ -278,7 +278,7 @@ class Database{
 
 
         //RESTRICTION
-        if (sizeof($whereClause) > 0) {
+        if ($whereClause != null and strlen($whereClause) > 0) {
             $query .= " WHERE ";
             $query .= $whereClause;
         }
