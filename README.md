@@ -5,9 +5,10 @@ Criada para ser extremamente leve e não possuir qualquer dependencia externa.\
 seu uso se resume a incluir o Arquivo "DatabaseOpenHelper.php" e instanciar a classe de manupulação do SGBD\
 Possui internamente métodos anti Sql Injection
 
-# Funcionalidade
+# Proprosito
 
-Introduz código SQL e retorna os dados em formato JSON
+Camada de comunicação com banco de dados
+- Retorna os dados no formato JSON
 - Erros de sintaxe são Logados para arquivo (Err< tipoDoErro >.txt); 
 
 
