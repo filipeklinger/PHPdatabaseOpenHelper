@@ -97,17 +97,17 @@ try{
  $offset = $pagina*$limit;
  $dados2 = $db->select($columns,$table,$whereClause,$whereArgs,$orderBy,ASC,$limit,$offset);
 
-}catch(Exception e){
+}catch(Exception $e){
  //TODO Handle Exception
 }
 ```
 
 -----------------------------------------------------------------------
 
-### Insert
+## Insert
 
 ```PHP
-insert($columns,$table,$params)
+insert($columns,$table,$params);
 ```
 
 - $columns : String;
@@ -131,7 +131,7 @@ $table = "usuario";
 $params = array("joão",5,"Rua xyz");//na mesma ordem do columns
 try{
  $boolean = $db->insert($columns,$table,$params);
-}catch(Exception e){
+}catch(Exception $e){
  //TODO Handle Exception
 }
 
@@ -139,10 +139,10 @@ try{
 
 -----------------------------------------------------------------------
 
-### Update
+## Update
 
 ```PHP
-update($columns,$table,$params,$whereClause,$whereArgs)
+update($columns,$table,$params,$whereClause,$whereArgs);
 ```
 
 - $columns : array(String)
@@ -164,17 +164,17 @@ $whereArgs = array(1);
 
 try{
  $boolean = $db->update($columns,$table,$params,$whereClause,$whereArgs);
-}catch(Exception e){
+}catch(Exception $e){
  //TODO Handle Exception
 }
 ```
 
 -----------------------------------------------------------------------
 
-### Delete
+## Delete
 
 ```PHP
-delete($table,$whereClause,$whereArgs)
+delete($table,$whereClause,$whereArgs);
 ```
 
 - $table : String;
@@ -197,13 +197,14 @@ $whereArgs = array(1);
 
 try{
  $boolean = $db->delete($table,$whereClause,$whereArgs);
-}catch(Exception e){
+}catch(Exception $e){
  //TODO Handle Exception
 }
 
 ```
+-----------------------------------------------------------------------
 
-### Last ID
+## Last ID
 
 ```PHP
 getLastId()
@@ -227,47 +228,45 @@ $params = array("joão",5,"Rua xyz");//na mesma ordem do columns
 try{
  $boolean = $db->insert($columns,$table,$params);
  $lasId = $db->getLastId();//Id do insert acima
-}catch(Exception e){
+}catch(Exception $e){
  //TODO Handle Exception
 }
 
 ```
 
 -----------------------------------------------------------------------
-###### SetVariable
+## SetVariable
 
-```
+```PHP
 setVariable(string $name,mixed $value);
 ```
 
 - $name : String;
 - $mixed : value;
 
-###### Throw Erros
+### Throw Erros
 
 - Sem parâmetros
 
 
-###### Exemplo de uso:
+### Exemplo de uso:
 
-```
+```PHP
 $db = new Database();
 
 //calculamos a idade dos usuarios 
 $columns = "nome,idade,sexo,TIMESTAMPDIFF(YEAR, c.nascimento, NOW()) AS idade";
 $table = "usuario";
 
-
 try{
-    //setando uma idade de comparacao 
-    $db->setVariable("nascimento","2020-01-20");
-    
-    //buscando pessoas que terao 18 anos em 2020
-    $whereClause = "TIMESTAMPDIFF(YEAR, usuario.nascimento, @nascimento) = 18";
-    
-	$stringJson = $db->select($columns,$table,$whereClause,null);
-	
-}catch(Exception e){
-	//Todo Handle Exception
+ //setando uma idade de comparacao 
+ $db->setVariable("nascimento","2020-01-20");
+ //buscando pessoas que terao 18 anos em 2020
+ $whereClause = "TIMESTAMPDIFF(YEAR, usuario.nascimento, @nascimento) = 18";
+
+ $dados = $db->select($columns,$table,$whereClause,null);
+
+}catch(Exception $e){
+ //TODO Handle Exception
 }
 ```
