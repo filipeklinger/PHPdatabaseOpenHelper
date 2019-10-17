@@ -3,28 +3,32 @@
 Database Open Helper \
 API para para simplificar acesso ao banco de dados\
 Criada para ser extremamente leve e não possuir qualquer dependencia externa.\
-seu uso se resume a incluir o Arquivo "DatabaseOpenHelper.php" e instanciar a classe de manupulação do SGBD\
-Possui internamente métodos anti Sql Injection
+Seu uso se resume a incluir o Arquivo "DatabaseOpenHelper.php" e instanciar a classe de manupulação do SGBD\
+Possui internamente método anti Sql Injection
 
-## Proprosito
+## Propósito
 
-Camada de comunicação com banco de dados
+Camada de comunicação com banco de dados leve e de fácil instalação
 
 - Retorna os dados em Array Bidimensional
 
 Ex:
 
 ```SQL
-SELECT nome,sobrenome from pessoa;
+SELECT nome,sobrenome FROM pessoa;
 ```
 
 Retorno:
 
 ```PHP
 Array(
-	Array(['nome'],['sobrenome'])//tupla 0
-	Array(['nome'],['sobrenome'])//tupla 1
-	Array(['nome'],['sobrenome'])//tupla 2
+ Array(['nome'],['sobrenome'])//tupla 0
+ Array(['nome'],['sobrenome'])//tupla 1
+ Array(['nome'],['sobrenome'])//tupla 2
+ .
+ .
+ .
+ Array(['nome'],['sobrenome'])//tupla N
 )
 ```
 
