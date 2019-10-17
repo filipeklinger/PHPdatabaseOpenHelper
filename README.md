@@ -1,22 +1,40 @@
 # PHPdatabaseOpenHelper
+
 Database Open Helper \
 API para para simplificar acesso ao banco de dados\
 Criada para ser extremamente leve e não possuir qualquer dependencia externa.\
 seu uso se resume a incluir o Arquivo "DatabaseOpenHelper.php" e instanciar a classe de manupulação do SGBD\
 Possui internamente métodos anti Sql Injection
 
-# Proprosito
+## Proprosito
 
 Camada de comunicação com banco de dados
-- Retorna os dados no formato JSON
-- Erros de sintaxe são Logados para arquivo (Err< tipoDoErro >.txt); 
 
+- Retorna os dados em Array Bidimensional
 
-# CONFIGURAÇÃO
+Ex:
+
+```SQL
+SELECT nome,sobrenome from pessoa;
+```
+
+Retorno:
+
+```PHP
+Array(
+	Array(['nome'],['sobrenome'])//tupla 0
+	Array(['nome'],['sobrenome'])//tupla 1
+	Array(['nome'],['sobrenome'])//tupla 2
+)
+```
+
+- Erros de sintaxe são Logados para arquivo (Err< tipoDoErro >.txt)
+
+## CONFIGURAÇÃO
 
 ## database.ini
 
-```
+```Bash
 [database]
 sgbd = mysql
 host = seuHost
@@ -26,18 +44,19 @@ username = usuarioDoSGBD
 password = senha
 ```
 
-# MÉTODOS
+## MÉTODOS
 
 ## DatabaseOpenHelper.php
 
-###### new Database();
+### new Database()
 
 Cria uma nova instancia de PDO utilizando a configuração do arquivo database.ini;
 
 -----------------------------------------------------------------------
-###### Select
 
-```
+## Select
+
+```PHP
 select($columns,$table,$whereClause,$whereArgs,$orderBy,$sequence, $limit,$offset);
 
 ```
@@ -51,15 +70,15 @@ select($columns,$table,$whereClause,$whereArgs,$orderBy,$sequence, $limit,$offse
 - $limit : Integer (Restringe quantidade de resultados retornados)
 - $offset : Integer (Seta quantidade de resultados pulados);
 
-###### throw erros
+### throw erros
 
 - EmptyColumns
 - EmptyTable
 - if($whereClause != null) ArrayNotFound
 
-###### Exemplo de uso:
+### Exemplo de uso
 
-```
+```PHP
 $db = new Database();
 
 $columns = "nome,idade,sexo";
@@ -70,58 +89,59 @@ $orderBy = "nome"
 
 try{
     //select em ordem Decrescente
-	$stringJson = $db->select($columns,$table,$whereClause,$whereArgs,$orderBy,DESC);
-	
-	//Select em ordem crescente na 5ª página com 25 resultados por página
-	
-	$limit = 25;
-	$pagina = 5;
-	$offset = $pagina*$limit;
-	
-	$stringJson2 = $db->select($columns,$table,$whereClause,$whereArgs,$orderBy,ASC,$limit,$offset);
-	
+ $dados = $db->select($columns,$table,$whereClause,$whereArgs,$orderBy,DESC);
+
+ //Select em ordem crescente na 5ª página com 25 resultados por página
+ $limit = 25;
+ $pagina = 5;
+ $offset = $pagina*$limit;
+ $dados2 = $db->select($columns,$table,$whereClause,$whereArgs,$orderBy,ASC,$limit,$offset);
+
 }catch(Exception e){
-	//Todo Handle Exception
+ //TODO Handle Exception
 }
 ```
 
 -----------------------------------------------------------------------
-###### Insert
 
-```
+### Insert
+
+```PHP
 insert($columns,$table,$params)
 ```
+
 - $columns : String;
 - $table : String;
 - $params : array(string)
 
-###### Throw Erros
+### Throw Erros
 
 - EmptyColumns
 - EmptyTable
 - ArrayNotFound
 - EmptyParams
 
-###### Exemplo de uso:
+### Exemplo de uso
 
-```
+```PHP
 $db = new Database();
 
 $columns = "nome,idade,endereco";
 $table = "usuario";
 $params = array("joão",5,"Rua xyz");//na mesma ordem do columns
 try{
-	$boolean = $db->insert($columns,$table,$params);
+ $boolean = $db->insert($columns,$table,$params);
 }catch(Exception e){
-	//Todo Handle Exception
+ //TODO Handle Exception
 }
 
 ```
 
 -----------------------------------------------------------------------
-###### Update
 
-```
+### Update
+
+```PHP
 update($columns,$table,$params,$whereClause,$whereArgs)
 ```
 
@@ -131,9 +151,9 @@ update($columns,$table,$params,$whereClause,$whereArgs)
 - $whereClause : String;
 - $WhereArgs : String;
 
-###### Exemplo de uso:
+### Exemplo de uso
 
-```
+```PHP
 $db = new Database();
 
 $columns = array("nome","idade","endereco");
@@ -143,16 +163,17 @@ $whereClause = "id = ?";
 $whereArgs = array(1);
 
 try{
-	$boolean = $db->update($columns,$table,$params,$whereClause,$whereArgs);
+ $boolean = $db->update($columns,$table,$params,$whereClause,$whereArgs);
 }catch(Exception e){
-	//Todo Handle Exception
+ //TODO Handle Exception
 }
-
 ```
+
 -----------------------------------------------------------------------
-###### Delete
 
-```
+### Delete
+
+```PHP
 delete($table,$whereClause,$whereArgs)
 ```
 
@@ -160,14 +181,13 @@ delete($table,$whereClause,$whereArgs)
 - $whereClause : String;
 - $WhereArgs : array(String);
 
-###### Throw Erros
+### Throw Erros
 
 - EmptyTable
 
+### Exemplo de uso
 
-###### Exemplo de uso:
-
-```
+```PHP
 $db = new Database();
 
 $columns = "nome,idade,endereco";
@@ -176,38 +196,39 @@ $whereClause = "id = ?";
 $whereArgs = array(1);
 
 try{
-	$boolean = $db->delete($table,$whereClause,$whereArgs);
+ $boolean = $db->delete($table,$whereClause,$whereArgs);
 }catch(Exception e){
-	//Todo Handle Exception
+ //TODO Handle Exception
 }
 
 ```
-###### Last ID
 
-```
+### Last ID
+
+```PHP
 getLastId()
 ```
 
 - Sem parâmetros
 
-###### Throw Erros
+### Throw Erros
 
 - Não
 
 
-###### Exemplo de uso:
+### Exemplo de uso:
 
-```
+```PHP
 $db = new Database();
 
 $columns = "nome,idade,endereco";
 $table = "usuario";
 $params = array("joão",5,"Rua xyz");//na mesma ordem do columns
 try{
-	$boolean = $db->insert($columns,$table,$params);
-	$lasId = $db->getLastId();//Id do insert acima
+ $boolean = $db->insert($columns,$table,$params);
+ $lasId = $db->getLastId();//Id do insert acima
 }catch(Exception e){
-	//Todo Handle Exception
+ //TODO Handle Exception
 }
 
 ```
