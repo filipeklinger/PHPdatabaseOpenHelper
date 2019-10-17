@@ -40,8 +40,8 @@ sgbd = mysql
 host = seuHost
 port = 3306
 schema = suaBaseDeDados
-username = usuarioDoSGBD
-password = senha
+username = 'usuarioDoSGBD'
+password = 'senha'
 ```
 
 ## MÉTODOS
