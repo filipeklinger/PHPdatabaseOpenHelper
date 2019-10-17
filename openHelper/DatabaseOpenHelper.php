@@ -45,15 +45,15 @@ class Database{
 //-----------------SELECT-------------------------------------------------------------------
 
     /**
-     * @param string $columns
-     * @param string $table
-     * @param string $whereClause
-     * @param array $whereArgs
-     * @param string $orderBy
-     * @param string $sequence
-     * @param integer $limit
-     * @param integer $offset
-     * @return string JsonObject
+     * @param String $columns
+     * @param String $table
+     * @param String $whereClause
+     * @param Array $whereArgs
+     * @param String $orderBy
+     * @param String $sequence
+     * @param Integer $limit
+     * @param Integer $offset
+     * @return Array Bidimensional com Tuplas do banco
      * @throws Exception
      */
     public function select($columns, $table, $whereClause = null, $whereArgs = array(null), $orderBy = null,$sequence = ASC, $limit = null,$offset = null)
@@ -111,19 +111,19 @@ class Database{
             return false;
         }
 
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $stmt->closeCursor();
 
-        return json_encode($data,JSON_UNESCAPED_UNICODE);//return json
+        return $dados;
     }
 
 //-------------------------INSERT------------------------------------------------
 
     /**
-     * @param $columns
-     * @param $table
-     * @param array $params
-     * @return bool
+     * @param String $columns
+     * @param String $table
+     * @param Array $params
+     * @return Boolean Inserido
      * @throws Exception
      */
     public function insert($columns, $table, $params = array())
@@ -182,12 +182,12 @@ class Database{
 //-----------------UPDATE-------------------------------------------------------------------
 
     /**
-     * @param array $columns
-     * @param $table
-     * @param array $params
-     * @param null $whereClause
-     * @param array $whereArgs
-     * @return bool
+     * @param Array $columns
+     * @param String $table
+     * @param Array $params
+     * @param String $whereClause
+     * @param Array $whereArgs
+     * @return Boolean atualizado
      * @throws Exception
      */
     public function update($columns = array(), $table, $params = array(), $whereClause = null, $whereArgs = array(null))
@@ -261,10 +261,10 @@ class Database{
 //----DELETE--------------------------------------
 
     /**
-     * @param $table
-     * @param null $whereClause
-     * @param array $whereArgs
-     * @return bool
+     * @param String $table
+     * @param String $whereClause
+     * @param Array $whereArgs
+     * @return Boolean apagado
      * @throws Exception
      */
     public function delete($table, $whereClause = null, $whereArgs = array(null))
@@ -326,19 +326,15 @@ class Database{
     {
         $dados = trim($dados);
         $dados = stripslashes($dados);
+        //buscando se possui caracteres invalidos e substituindo
+        $dados = str_replace(";" , ". " , $dados );
         $dados = htmlspecialchars($dados);
-        $vetDados = str_split($dados);//transforma em um vetor
-        for ($i = 0; $i < count($vetDados); $i++) {//percorre caracter a caracter
-            if ($vetDados[$i] == ";") {
-                throw new Exception("SQLInjectionError", 1);
-            }
-        }
         return $dados;
     }
 
 //-------------------LastId---------------------------------------------------------------------------------------------
     /**
-     * @return false or NumberOfLastId
+     * @return Integer Last Id Inserted || False
      */
     public function getLastId()
     {
