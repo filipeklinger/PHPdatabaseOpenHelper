@@ -1,10 +1,12 @@
 # PHPdatabaseOpenHelper
 
 Database Open Helper \
-API para para simplificar acesso ao banco de dados\
+Biblioteca para para simplificar acesso ao banco de dados\
 Criada para ser extremamente leve e não possuir qualquer dependencia externa.\
 Seu uso se resume a incluir o Arquivo "DatabaseOpenHelper.php" e instanciar a classe de manupulação do SGBD\
 Possui internamente método anti Sql Injection
+
+Obs.: Foi testado somente com os SGBD Mysql e MariaDB
 
 ## Propósito
 
