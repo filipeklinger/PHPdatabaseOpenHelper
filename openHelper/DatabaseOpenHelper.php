@@ -101,11 +101,7 @@ class Database{
         try {
             $stmt->execute();
         } catch (Exception $Exception) {
-            $err = $Exception->getMessage();
-            $arquivo = fopen($this->diretorio."/ErrLogSelect.txt", "a+");
-            $err = "[" . date("d/m/Y h:i A") . "]" . " QUERY: " . $query . " ERRO: " . $err . "\n";
-            fwrite($arquivo, $err);
-            fclose($arquivo);
+            $this->logError($Exception,$query,"/ErrLogSelect.txt");
 
             $stmt->closeCursor();
             return false;
@@ -114,7 +110,7 @@ class Database{
         $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $stmt->closeCursor();
 
-        return $dados;
+        return $dados; //return json_encode($data,JSON_UNESCAPED_UNICODE);//return json
     }
 
 //-------------------------INSERT------------------------------------------------
@@ -165,12 +161,7 @@ class Database{
         try {
             $stmt->execute();
         } catch (Exception $e) {//logamos os erros em arquivo
-            $err = $e->getMessage();
-            $arquivo = fopen($this->diretorio."/ErrLogInsert.txt", "a+");
-            $err = "[" . date("d/m/Y h:i A") . "]" . " QUERY: " . $query . " ERRO: " . $err . "\n";
-            fwrite($arquivo, $err);
-            fclose($arquivo);
-
+            $this->logError($e,$query,"/ErrLogInsert.txt");
             $stmt->closeCursor();
             return false;
         }
@@ -244,12 +235,7 @@ class Database{
         try {
             $stmt->execute();
         } catch (Exception $Exception) {
-            $err = $Exception->getMessage();
-            $arquivo = fopen($this->diretorio."/ErrLogUpdate.txt", "a+");
-            $err = "[" . date("d/m/Y h:i A") . "]" . " QUERY: " . $query . " ERRO: " . $err . "\n";
-            fwrite($arquivo, $err);
-            fclose($arquivo);
-
+            $this->logError($Exception,$query,"/ErrLogUpdate.txt");
             $stmt->closeCursor();
             return false;
         }
@@ -299,12 +285,7 @@ class Database{
         try {
             $stmt->execute();
         } catch (Exception $Exception) {
-            $err = $Exception->getMessage();
-            $arquivo = fopen($this->diretorio."/ErrLogDelete.txt", "a+");
-            $err = "[" . date("d/m/Y h:i A") . "]" . " QUERY: " . $query . " ERRO: " . $err . "\n";
-            fwrite($arquivo, $err);
-            fclose($arquivo);
-
+            $this->logError($Exception,$query,"/ErrLogDelete.txt");
             $stmt->closeCursor();
             return false;
         }
@@ -348,12 +329,7 @@ class Database{
         try {
             $stmt->execute();
         } catch (Exception $Exception) {
-            $err = $Exception->getMessage();
-            $arquivo = fopen($this->diretorio."/ErrLogLastId.txt", "a+");
-            $err = "[" . date("d/m/Y h:i A") . "]" . " QUERY: " . $query . " ERRO: " . $err . "\n";
-            fwrite($arquivo, $err);
-            fclose($arquivo);
-
+            $this->logError($Exception,$query,"/ErrLogLastId.txt");
             $stmt->closeCursor();
             return false;
         }
@@ -372,6 +348,36 @@ class Database{
         $value = $this->antiInjection($value);
         $name = $this->antiInjection($name);
         $this->databaseObj->query("Set @".$name.":=".$value);
+    }
+
+//---------------------------LOG--------------------------------
+
+    /**
+     * Loga os Erros em arquivo com detalhes
+     * @param Exception $Exception
+     * @param String $query
+     * @param String $arqName
+     */
+    private function logError($Exception,$query,$arqName){
+        $err = $Exception->getMessage();
+        $trace = explode("\n", $Exception->getTraceAsString());
+        // reverse array to make steps line up chronologically
+        $trace = array_reverse($trace);
+        array_shift($trace); // remove {main}
+        array_pop($trace); // remove call to this method
+        $length = count($trace);
+        $result = array();
+    
+        for ($i = 0; $i < $length; $i++){
+            $result[] = ($i + 1)  . ')' . substr($trace[$i], strpos($trace[$i], ' ')); // set the right ordering
+        }
+   
+        $trace = implode("; ", $result);
+
+        $err = "[" . date("d/m/Y h:i A") . "]" . " ERRO: " . $err ." StackTrace: " . $trace. " QUERY: " . $query . "\n";
+        $arquivo = fopen($this->diretorio."{$arqName}", "a+");
+        fwrite($arquivo, $err);
+        fclose($arquivo);
     }
 }
 
