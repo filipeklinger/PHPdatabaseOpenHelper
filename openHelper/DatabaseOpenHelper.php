@@ -56,7 +56,7 @@ class Database{
      * @return Array Bidimensional com Tuplas do banco
      * @throws Exception
      */
-    public function select($columns, $table, $whereClause = null, $whereArgs = array(null), $orderBy = null,$sequence = ASC, $limit = null,$offset = null)
+    public function select($columns, $table, $whereClause = null, $whereArgs = array(null), $orderBy = null,$sequence = ASC, $limit = 0,$offset = 0)
     {
         //check
         if (empty($columns)) throw new Exception("EmptyColumns", 1);
@@ -82,8 +82,12 @@ class Database{
         }
 
         //Paginator
-        if ($offset != null and sizeof($limit) > 0) {
-            $query .=" LIMIT ". intval($limit). " OFFSET ".intval($offset);
+        if (intval($limit) > 0) {
+            $query .=" LIMIT ". intval($limit);
+        }
+
+        if (intval($offset) > 0) {
+            $query .=" OFFSET ".intval($offset);
         }
         //Preparing
         $PDO = $this->databaseObj;
