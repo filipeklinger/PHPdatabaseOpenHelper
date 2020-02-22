@@ -78,9 +78,9 @@ select($columns,$table,$whereClause,$whereArgs,$orderBy,$sequence, $limit,$offse
 
 ### throw erros
 
-- EmptyColumns
-- EmptyTable
-- if($whereClause != null) ArrayNotFound
+- EmptyColumns - se nenhuma coluna for passada ao método
+- EmptyTable - se nenhuma tabela for passada ao método
+- if($whereClause != null) ArrayNotFound - se a clausula where não for um vetor
 
 ### Exemplo de uso
 
@@ -95,13 +95,13 @@ $orderBy = "nome"
 
 try{
     //select em ordem Decrescente
- $dados = $db->select($columns,$table,$whereClause,$whereArgs,$orderBy,DESC);
+ $dados = $db->select($columns,$table,$whereClause,$whereArgs,$orderBy,Database::DESC);
 
  //Select em ordem crescente na 5ª página com 25 resultados por página
  $limit = 25;
  $pagina = 5;
  $offset = $pagina*$limit;
- $dados2 = $db->select($columns,$table,$whereClause,$whereArgs,$orderBy,ASC,$limit,$offset);
+ $dados2 = $db->select($columns,$table,$whereClause,$whereArgs,$orderBy,Database::ASC,$limit,$offset);
 
 }catch(Exception $e){
  //TODO Handle Exception
