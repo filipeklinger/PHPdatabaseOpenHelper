@@ -4,14 +4,16 @@
  * Date: 03/03/18
  * Time: 14:37
  */
-const ASC = " ASC ";
-const DESC = " DESC ";
 class Database{
     /**
      * @var PDO
      */
     private $diretorio;
     private $databaseObj;
+
+    //constantes select
+    const ASC = " ASC ";
+    const DESC = " DESC ";
 
     function __construct(){
         $this->diretorio = dirname(__FILE__);
@@ -56,7 +58,7 @@ class Database{
      * @return Array Bidimensional com Tuplas do banco
      * @throws Exception
      */
-    public function select($columns, $table, $whereClause = null, $whereArgs = array(null), $orderBy = null,$sequence = ASC, $limit = 0,$offset = 0)
+    public function select($columns, $table, $whereClause = null, $whereArgs = array(null), $orderBy = null,$sequence = Database::ASC, $limit = 0,$offset = 0)
     {
         //check
         if (empty($columns)) throw new Exception("EmptyColumns", 1);
