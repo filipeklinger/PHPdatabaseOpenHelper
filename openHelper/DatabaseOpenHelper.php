@@ -92,15 +92,15 @@ class DatabaseOpenHelper{
         //Paginator
         if (!empty($limit)) $query .= " LIMIT ". intval($limit);
         if (!empty($offset)) $query .= " OFFSET ".intval($offset);
-        
+
         //Preparing
         $PDO = $this->databaseObj;
         $stmt = $PDO->prepare($query);
 
-        //Inserting params
+        //Inserting where params
+        if(!empty($whereArgs))
         foreach ($whereArgs as $i => $arg) {
-            $arg = $this->antiInjection($arg);
-            $stmt->bindParam($i + 1, $arg);
+            $stmt->bindValue(($i + 1), $this->antiInjection($arg));
         }
 
         //Running Query
