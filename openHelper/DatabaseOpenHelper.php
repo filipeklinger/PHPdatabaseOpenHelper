@@ -3,6 +3,7 @@
  * Created by Filipe Klinger.
  * Date: 03/03/18
  * Time: 14:37
+ * v1.0.1
  */
 class Database{
     /**
@@ -92,12 +93,12 @@ class Database{
         }
 
         //Paginator
-        if (intval($limit) > 0) {
-            $query .=" LIMIT ". intval($limit);
+        if (!empty($limit)) {
+            $query .= " LIMIT ". intval($limit);
         }
 
-        if (intval($offset) > 0) {
-            $query .=" OFFSET ".intval($offset);
+        if (!empty($offset)) {
+            $query .= " OFFSET ".intval($offset);
         }
         //Preparing
         $PDO = $this->databaseObj;
