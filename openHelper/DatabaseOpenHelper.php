@@ -70,7 +70,7 @@ class DatabaseOpenHelper{
      * @return Array Bidimensional com Tuplas do banco
      * @throws Exception
      */
-    public function select($columns, $table, $whereClause = null, $whereArgs = array(null), $orderBy = null,$sequence = ASC, $limit = 0,$offset = 0)
+    public function select($columns, $table, $whereClause = null, $whereArgs = [], $orderBy = null,$sequence = ASC, $limit = 0,$offset = 0)
     {
         //check
         if (empty($columns)) throw new Exception("EmptyColumns", 1);
@@ -140,7 +140,7 @@ class DatabaseOpenHelper{
      * @return Boolean Inserido
      * @throws Exception
      */
-    public function insert($columns, $table, $params = array())
+    public function insert($columns, $table, $params = [])
     {
         //check
         if (empty($columns)) throw new Exception("EmptyColumns", 1);
@@ -199,7 +199,7 @@ class DatabaseOpenHelper{
      * @return Boolean atualizado
      * @throws Exception
      */
-    public function update($columns = array(), $table, $params = array(), $whereClause = null, $whereArgs = array(null))
+    public function update($columns = [], $table, $params = [], $whereClause = null, $whereArgs = array(null))
     {
         //check
         if (!is_array($columns)) throw new Exception("ArrayNotFound", 1);
@@ -384,7 +384,7 @@ class DatabaseOpenHelper{
         array_shift($trace); // remove {main}
         array_pop($trace); // remove call to this method
         $length = count($trace);
-        $result = array();
+        $result = [];
     
         for ($i = 0; $i < $length; $i++){
             $result[] = ($i + 1)  . ')' . substr($trace[$i], strpos($trace[$i], ' ')); // set the right ordering
