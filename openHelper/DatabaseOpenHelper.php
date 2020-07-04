@@ -20,7 +20,8 @@ class Database{
         try {
             $this->conectar();
         } catch (Exception $e) {
-            echo $e;
+            echo 'Connection failed: ' . $e->getMessage();
+            die();
         }
     }
 
@@ -31,7 +32,7 @@ class Database{
      */
     private function conectar($arquivo = 'database.ini')
     {
-        if (!$setings = parse_ini_file($arquivo, TRUE)) throw new Exception("ErrorOnOpen");
+        if (!$setings = parse_ini_file($arquivo, TRUE)) throw new Exception("Error On Open INI file ");
         $sgbd = $setings['database']['sgbd'];
         $host = $setings['database']['host'];
         $port = $setings['database']['port'];
@@ -39,9 +40,16 @@ class Database{
         $username = $setings['database']['username'];
         $password = $setings['database']['password'];
 
-        $con = new PDO($sgbd . ":host=" . $host . ";port=" . $port . ";dbname=" . $schema, $username, $password, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
-        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $this->databaseObj = $con;
+        $dsn = "$sgbd:host=$host;port=$port;dbname=$schema";
+
+        try{
+            $con = new PDO($dsn, $username, $password, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+            $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->databaseObj = $con;
+        }catch(PDOException $e){
+            echo 'Connection failed: ' . $e->getMessage();
+            die();
+        }
     }
 
 //-----------------SELECT-------------------------------------------------------------------
