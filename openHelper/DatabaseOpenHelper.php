@@ -215,14 +215,17 @@ class DatabaseOpenHelper{
         $stmt = $PDO->prepare($query);
 
         //Inserting params
-        foreach ($params as $i => $param) {
-            $stmt->bindValue($i + 1, $this->antiInjection($param));
+        $totalParams = 1;
+        foreach ($params as $param) {
+            $stmt->bindValue($totalParams, $this->antiInjection($param));
+            $totalParams++;
         }
 
         //Inserting where params
         if(!empty($whereArgs))
-        foreach ($whereArgs as $i => $arg) {
-            $stmt->bindValue(($i + 1), $this->antiInjection($arg));
+        foreach ($whereArgs as $arg) {
+            $stmt->bindValue($totalParams, $this->antiInjection($arg));
+            $totalParams++;
         }
 
         //Running Query
