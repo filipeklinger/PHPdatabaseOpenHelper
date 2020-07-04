@@ -73,8 +73,8 @@ class DatabaseOpenHelper{
     public function select($columns, $table, $whereClause = null, $whereArgs = [], $orderBy = null,$sequence = ASC, $limit = 0,$offset = 0)
     {
         //check
-        if (empty($columns)) throw new Exception("EmptyColumns", 1);
-        if (empty($table)) throw new Exception("EmptyTable", 1);
+        if (empty($columns)) throw new Exception("Empty Column is not allowed");
+        if (empty($table)) throw new Exception("Empty Table  is not allowed");
         //begin
         $query = "SELECT ";
 
@@ -143,10 +143,10 @@ class DatabaseOpenHelper{
     public function insert($columns, $table, $params = [])
     {
         //check
-        if (empty($columns)) throw new Exception("EmptyColumns", 1);
-        if (empty($table)) throw new Exception("EmptyTable", 1);
-        if (!is_array($params)) throw new Exception("ArrayNotFound", 1);
-        if (sizeof($params) < 1) throw new Exception("EmptyParams", 1);
+        if (empty($columns)) throw new Exception("Empty Column is not allowed");
+        if (empty($table)) throw new Exception("Empty Table is not allowed", 1);
+        if (!is_array($params)) throw new Exception("Params Array Not Found", 1);
+        if (empty($params)) throw new Exception("Empty Params is not allowed", 1);
 
         //Begin
         $query = "INSERT INTO " . $table;
@@ -199,17 +199,17 @@ class DatabaseOpenHelper{
      * @return Boolean atualizado
      * @throws Exception
      */
-    public function update($columns = [], $table, $params = [], $whereClause = null, $whereArgs = array(null))
+    public function update($columns = [], $table, $params = [], $whereClause = null, $whereArgs = [])
     {
         //check
-        if (!is_array($columns)) throw new Exception("ArrayNotFound", 1);
-        if (sizeof($columns) < 1) throw new Exception("EmptyColumns", 1);
-        if (empty($table)) throw new Exception("EmptyTable", 1);
-        if (!is_array($params)) throw new Exception("ArrayNotFound", 1);
-        if (sizeof($params) < 1) throw new Exception("EmptyParams", 1);
-        if (!is_array($whereArgs)) throw new Exception("ArrayNotFound", 1);
+        if (!is_array($columns)) throw new Exception("Columns Array is required", 1);
+        if (empty($columns)) throw new Exception("Empty Columns is not allowed", 1);
+        if (empty($table)) throw new Exception("Empty Table is not allowed", 1);
+        if (!is_array($params)) throw new Exception("Params Array is required", 1);
+        if (empty($params)) throw new Exception("Empty Params is not allowed", 1);
+        if (!is_array($whereArgs)) throw new Exception("Where Args Array is required", 1);
 
-        $query = "UPDATE " . $table . " SET ";
+        $query = "UPDATE $table SET ";
 
         //binding VALUES
         for ($i = 0; $i < sizeof($columns); $i++) {
@@ -222,8 +222,7 @@ class DatabaseOpenHelper{
 
         //RESTRICTION
         if ($whereClause != null and strlen($whereClause) > 0) {
-            $query .= " WHERE ";
-            $query .= $whereClause;
+            $query .= " WHERE $whereClause";
         }
 
         //Preparing
@@ -271,20 +270,19 @@ class DatabaseOpenHelper{
      * @return Boolean apagado
      * @throws Exception
      */
-    public function delete($table, $whereClause = null, $whereArgs = array(null))
+    public function delete($table, $whereClause = null, $whereArgs = [])
     {
         //Check
-        if (empty($table)) throw new Exception("EmptyTable", 1);
-        if (!is_array($whereArgs)) throw new Exception("ArrayNotFound", 1);
+        if (empty($table)) throw new Exception("Empty Table is not allowed");
+        if (!is_array($whereArgs)) throw new Exception("Where Args Array is required");
 
         //Begin
-        $query = "DELETE FROM " . $table;
+        $query = "DELETE FROM $table";
 
 
         //RESTRICTION
         if ($whereClause != null and strlen($whereClause) > 0) {
-            $query .= " WHERE ";
-            $query .= $whereClause;
+            $query .= " WHERE $whereClause";
         }
 
         //Preparing
