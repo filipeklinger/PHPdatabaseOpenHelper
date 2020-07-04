@@ -128,7 +128,7 @@ class DatabaseOpenHelper{
         $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $stmt->closeCursor();
 
-        return $dados; //return json_encode($data,JSON_UNESCAPED_UNICODE);//return json
+        return $dados;
     }
 
 //-------------------------INSERT------------------------------------------------
