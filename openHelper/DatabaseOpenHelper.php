@@ -157,8 +157,7 @@ class DatabaseOpenHelper{
 
         //Inserting params
         foreach ($params as $i => $param) {
-            $param = $this->antiInjection($param);
-            $stmt->bindParam($i + 1, $param);
+            $stmt->bindValue($i + 1, $this->antiInjection($param));
         }
 
         //Running Query
@@ -216,22 +215,14 @@ class DatabaseOpenHelper{
         $stmt = $PDO->prepare($query);
 
         //Inserting params
-        $i = 0;
-        if (sizeof($params) > 0) {
-            for ($j = 0; $j < sizeof($params); $j++) {
-                //somente os parametros vem do usuario entao testamos
-                $params[$j] = $this->antiInjection($params[$j]);
-                $stmt->bindParam($i + 1, $params[$j]);
-                $i++;
-            }
+        foreach ($params as $i => $param) {
+            $stmt->bindValue($i + 1, $this->antiInjection($param));
         }
-        //Inserting RESTRICTION params
-        if (sizeof($whereArgs) > 0) {
-            for ($j = 0; $j < sizeof($whereArgs); $j++) {
-                $whereArgs[$j] = $this->antiInjection($whereArgs[$j]);
-                $stmt->bindParam($i + 1, $whereArgs[$j]);
-                $i++;
-            }
+
+        //Inserting where params
+        if(!empty($whereArgs))
+        foreach ($whereArgs as $i => $arg) {
+            $stmt->bindValue(($i + 1), $this->antiInjection($arg));
         }
 
         //Running Query
@@ -267,7 +258,7 @@ class DatabaseOpenHelper{
 
 
         //RESTRICTION
-        if ($whereClause != null and strlen($whereClause) > 0) {
+        if (!empty($whereClause)) {
             $query .= " WHERE $whereClause";
         }
 
@@ -275,12 +266,10 @@ class DatabaseOpenHelper{
         $PDO = $this->databaseObj;
         $stmt = $PDO->prepare($query);
 
-        //Inserting params
-        if (sizeof($whereArgs) > 0) {
-            for ($i = 0; $i < sizeof($whereArgs); $i++) {
-                $whereArgs[$i] = $this->antiInjection($whereArgs[$i]);
-                $stmt->bindParam($i + 1, $whereArgs[$i]);
-            }
+        //Inserting where params
+        if(!empty($whereArgs))
+        foreach ($whereArgs as $i => $arg) {
+            $stmt->bindValue(($i + 1), $this->antiInjection($arg));
         }
 
         //Running query
