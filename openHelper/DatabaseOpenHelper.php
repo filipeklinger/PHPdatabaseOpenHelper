@@ -75,44 +75,32 @@ class DatabaseOpenHelper{
         //check
         if (empty($columns)) throw new Exception("Empty Column is not allowed");
         if (empty($table)) throw new Exception("Empty Table  is not allowed");
-        //begin
-        $query = "SELECT ";
 
-        //Projection
-        $query .= $columns;
-
-        //TABLE
-        $query .= " FROM " . $table;
+        //begin //Projection //TABLE
+        $query = "SELECT $columns FROM $table ";
 
         //RESTRICTION
-        if ($whereClause != null and is_string($whereClause) and strlen($whereClause) > 0) {
-            $query .= " WHERE ";
-            $query .= $whereClause;
+        if (!empty($whereClause)) {
+            $query .= " WHERE $whereClause";
         }
 
         //ORDER
-        if ($orderBy != null and is_string($orderBy) and strlen($orderBy) > 0) {
+        if (!empty($orderBy)) {
             $query .= " ORDER BY " . $this->antiInjection($orderBy)." ".$this->antiInjection($sequence);
         }
 
         //Paginator
-        if (!empty($limit)) {
-            $query .= " LIMIT ". intval($limit);
-        }
-
-        if (!empty($offset)) {
-            $query .= " OFFSET ".intval($offset);
-        }
+        if (!empty($limit)) $query .= " LIMIT ". intval($limit);
+        if (!empty($offset)) $query .= " OFFSET ".intval($offset);
+        
         //Preparing
         $PDO = $this->databaseObj;
         $stmt = $PDO->prepare($query);
-        //Inserting params
-        if ($whereArgs != null and sizeof($whereArgs) > 0) {
-            for ($i = 0; $i < sizeof($whereArgs); $i++) {
-                $whereArgs[$i] = $this->antiInjection($whereArgs[$i]);
-                $stmt->bindParam($i + 1, $whereArgs[$i]);
 
-            }
+        //Inserting params
+        foreach ($whereArgs as $i => $arg) {
+            $arg = $this->antiInjection($arg);
+            $stmt->bindParam($i + 1, $arg);
         }
 
         //Running Query
@@ -149,8 +137,7 @@ class DatabaseOpenHelper{
         if (empty($params)) throw new Exception("Empty Params is not allowed", 1);
 
         //Begin
-        $query = "INSERT INTO " . $table;
-        $query .= " ( " . $columns . " ) VALUES (";
+        $query = "INSERT INTO $table ( $columns ) VALUES (";
 
         //Inserting placeholders
         for ($i = 0; $i < sizeof($params); $i++) {
@@ -160,7 +147,8 @@ class DatabaseOpenHelper{
                 $query .= " ? ";
             }
         }
-        //closing placeholders
+        
+        //closing VALUES
         $query .= ") ";
 
         //Preparing
@@ -168,11 +156,9 @@ class DatabaseOpenHelper{
         $stmt = $PDO->prepare($query);
 
         //Inserting params
-        if ($params != null and sizeof($params) > 0) {
-            for ($i = 0; $i < sizeof($params); $i++) {
-                $params[$i] = $this->antiInjection($params[$i]);
-                $stmt->bindParam($i + 1, $params[$i]);
-            }
+        foreach ($params as $i => $param) {
+            $param = $this->antiInjection($param);
+            $stmt->bindParam($i + 1, $param);
         }
 
         //Running Query
