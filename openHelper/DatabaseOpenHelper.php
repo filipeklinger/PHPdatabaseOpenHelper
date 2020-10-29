@@ -1,9 +1,10 @@
 <?php
 /**
  * Created by Filipe Klinger.
- * Date: 03/03/18
- * Time: 14:37
- * v2.0.0
+ * SINCE: 03/03/18
+ * UPDATE: 29/10/2020
+ * Time: 10:52
+ * v2.0.1
  */
 namespace OpenHelper;
 use Exception;
@@ -16,8 +17,9 @@ class DatabaseOpenHelper{
     /**
      * @var PDO
      */
-    private $diretorio;
     private $databaseObj;
+    private $diretorio;
+    
 
     function __construct(){
         $this->diretorio = dirname(__FILE__);
@@ -331,6 +333,30 @@ class DatabaseOpenHelper{
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $stmt->closeCursor();
         $data = $data[0]['LAST_INSERT_ID()'];
+        return $data;
+    }
+    //-------------------------------RAW-QUERY-----------------------------------
+    /**
+     * @param string $query
+     * @return array data
+     */
+    public function rawQuery($query)
+    {
+        //Preparing
+        $PDO = $this->databaseObj;
+        $stmt = $PDO->prepare($query);
+
+        //Running query
+        try {
+            $stmt->execute();
+        } catch (Exception $Exception) {
+            $this->logError($Exception, $query, "/raw_query");
+            $stmt->closeCursor();
+            return false;
+        }
+
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->closeCursor();
         return $data;
     }
 //-----------------------------------SET---Variable---------------------------------------------------------------------
