@@ -301,6 +301,7 @@ class DatabaseOpenHelper{
      */
     private function antiInjection($dados)
     {
+        if($dados == NULL) return NULL;
         $dados = trim($dados);
         $dados = stripslashes($dados);
         //buscando se possui caracteres invalidos e substituindo
