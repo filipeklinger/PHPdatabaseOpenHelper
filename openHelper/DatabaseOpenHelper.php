@@ -6,10 +6,10 @@
  * Time: 10:52
  * v2.0.1
  */
-namespace OpenHelper;
-use Exception;
-use PDO;
-use PDOException;
+// namespace OpenHelper;
+// use Exception;
+// use PDO;
+// use PDOException;
 
 const ASC = " ASC ";
 const DESC = " DESC ";
@@ -118,7 +118,8 @@ class DatabaseOpenHelper{
         $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $stmt->closeCursor();
 
-        return $dados;
+        // return $dados;
+        return json_encode($dados,JSON_UNESCAPED_UNICODE);
     }
 
 //-------------------------INSERT------------------------------------------------
